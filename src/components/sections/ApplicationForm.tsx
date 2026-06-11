@@ -73,12 +73,7 @@ export default function ApplicationForm() {
     }
   };
 
-  // Simulate Camera Capture
-  const simulateCapture = () => {
-    setIdName("simulated_id_capture.png");
-    setIdImage(mockIDCardSVG);
-    startScanning(mockIDCardSVG);
-  };
+
 
   // Run Scan Animation & Verification
   const startScanning = (imgData: string) => {
@@ -209,16 +204,10 @@ export default function ApplicationForm() {
         {/* Card Panel */}
         <div className="glass-panel p-6 sm:p-10 rounded-3xl relative">
           
-          <AnimatePresence mode="wait">
-            {!submitSuccess ? (
-              <motion.form
-                key="form"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                onSubmit={handleSubmit(onSubmit)}
-                className="space-y-6"
-              >
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="space-y-6"
+          >
                 {/* 2-Column Inputs */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                   
@@ -486,32 +475,22 @@ export default function ApplicationForm() {
                     <span className="text-sm font-bold text-white">Student ID Verification</span>
                   </div>
                   <p className="text-[11px] text-zinc-400 leading-relaxed">
-                    Upload your college ID card, or trigger simulated capture. Our AI models analyze graduation batch verification.
+                    Upload your college ID card. Our AI models analyze graduation batch verification.
                   </p>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {/* Left Dropzone */}
                     {!idImage ? (
-                      <div className="flex flex-col gap-2">
-                        <div className="relative border-2 border-dashed border-zinc-800 hover:border-purple-500/50 rounded-2xl p-6 flex flex-col items-center justify-center gap-2 transition-colors duration-200 cursor-pointer bg-zinc-950/40 group">
-                          <input
-                            type="file"
-                            accept="image/*"
-                            onChange={handleFileUpload}
-                            className="absolute inset-0 opacity-0 cursor-pointer"
-                          />
-                          <Upload className="w-6 h-6 text-zinc-500 group-hover:text-purple-400 transition-colors" />
-                          <span className="text-xs font-semibold text-zinc-300">Upload ID Card Photo</span>
-                          <span className="text-[10px] text-zinc-500">Supports PNG, JPG</span>
-                        </div>
-                        <button
-                          type="button"
-                          onClick={simulateCapture}
-                          className="flex items-center justify-center gap-2 py-2.5 rounded-xl text-xs font-semibold border border-zinc-800 hover:border-zinc-700 bg-zinc-900/40 text-zinc-300 hover:text-white transition-all cursor-pointer"
-                        >
-                          <Camera className="w-4 h-4 text-purple-400" />
-                          Simulate Camera Capture
-                        </button>
+                      <div className="relative border-2 border-dashed border-zinc-800 hover:border-purple-500/50 rounded-2xl p-6 flex flex-col items-center justify-center gap-2 transition-colors duration-200 cursor-pointer bg-zinc-950/40 group">
+                        <input
+                          type="file"
+                          accept="image/*"
+                          onChange={handleFileUpload}
+                          className="absolute inset-0 opacity-0 cursor-pointer"
+                        />
+                        <Upload className="w-6 h-6 text-zinc-500 group-hover:text-purple-400 transition-colors" />
+                        <span className="text-xs font-semibold text-zinc-300">Upload ID Card Photo</span>
+                        <span className="text-[10px] text-zinc-500">Supports PNG, JPG</span>
                       </div>
                     ) : (
                       /* Left Preview */
@@ -716,64 +695,96 @@ export default function ApplicationForm() {
                   )}
                 </button>
 
-              </motion.form>
-            ) : (
-              // Success Panel
-              <motion.div
-                key="success"
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0 }}
-                className="flex flex-col items-center text-center py-8"
-              >
-                <motion.div
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
-                  transition={{ type: "spring", stiffness: 100, damping: 10, delay: 0.15 }}
-                  className="w-20 h-20 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 flex items-center justify-center mb-6"
-                >
-                  <CheckCircle className="w-10 h-10" />
-                </motion.div>
-
-                <h3 className="text-2xl font-extrabold text-white mb-2">Application Submitted!</h3>
-                <p className="text-purple-400 text-xs font-bold uppercase tracking-wider mb-6 flex items-center gap-1.5 justify-center">
-                  <Sparkles className="w-4 h-4 text-purple-400" />
-                  Application ID: {appId}
-                </p>
-
-                <p className="text-sm text-zinc-400 max-w-md leading-relaxed mb-8">
-                  Thank you for applying for the **CodeMe Hub Scholarship 2026**! Your details have been collected successfully. Our admissions and selection team will screen your response. Shortlisted candidates will be contacted via email/mobile with their assessment login credentials.
-                </p>
-
-                <div className="w-full bg-zinc-900/50 border border-zinc-800/80 rounded-2xl p-5 mb-8 text-left space-y-2 text-xs">
-                  <h4 className="font-bold text-white text-sm mb-3">Next Steps:</h4>
-                  <div className="flex gap-2.5 text-zinc-400">
-                    <span className="font-bold text-purple-400">1.</span>
-                    <span>Check your email (including spam folder) for the confirmation slip.</span>
-                  </div>
-                  <div className="flex gap-2.5 text-zinc-400">
-                    <span className="font-bold text-purple-400">2.</span>
-                    <span>An online reasoning & basic coding link will be dispatched in 48 hours.</span>
-                  </div>
-                  <div className="flex gap-2.5 text-zinc-400">
-                    <span className="font-bold text-purple-400">3.</span>
-                    <span>Complete the assessment inside the given 3-day window.</span>
-                  </div>
-                </div>
-
-                <button
-                  onClick={() => setSubmitSuccess(false)}
-                  className="px-6 py-2.5 rounded-xl text-xs font-bold text-zinc-300 border border-zinc-800 hover:border-zinc-700 hover:text-white transition-all cursor-pointer"
-                >
-                  Submit Another Form
-                </button>
-              </motion.div>
-            )}
-          </AnimatePresence>
+              </form>
 
         </div>
 
       </div>
+
+      {/* POPUP MODAL FOR SUCCESSFUL SUBMISSION */}
+      <AnimatePresence>
+        {submitSuccess && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center px-4 bg-zinc-950/80 backdrop-blur-md">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.9, y: 20 }}
+              className="glass-panel w-full max-w-md p-8 rounded-3xl relative overflow-hidden text-center shadow-2xl flex flex-col items-center border border-emerald-500/30"
+            >
+              {/* Confetti Animation Elements */}
+              <div className="absolute inset-0 pointer-events-none">
+                {[...Array(20)].map((_, i) => (
+                  <motion.div
+                    key={i}
+                    className="absolute w-2 h-2 rounded-full"
+                    style={{
+                      backgroundColor: i % 3 === 0 ? "#10b981" : i % 3 === 1 ? "#8b5cf6" : "#3b82f6",
+                      top: "40%",
+                      left: "50%",
+                    }}
+                    animate={{
+                      x: [0, (Math.random() - 0.5) * 350],
+                      y: [0, (Math.random() - 0.5) * 350 - 50],
+                      scale: [1, 0.4, 0],
+                      opacity: [1, 1, 0],
+                      rotate: [0, Math.random() * 360],
+                    }}
+                    transition={{ duration: 2, ease: "easeOut", delay: 0.05 }}
+                  />
+                ))}
+              </div>
+
+              {/* Icon */}
+              <motion.div
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{ type: "spring", stiffness: 100, damping: 10, delay: 0.15 }}
+                className="w-20 h-20 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 flex items-center justify-center mb-6 relative"
+              >
+                <CheckCircle className="w-10 h-10" />
+                <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-emerald-500 animate-ping opacity-75" />
+              </motion.div>
+
+              {/* Content */}
+              <h3 className="text-2xl font-extrabold text-white mb-2">Application Submitted! 🎉</h3>
+              <p className="text-purple-400 text-xs font-bold uppercase tracking-wider mb-6 flex items-center gap-1.5 justify-center bg-purple-500/10 border border-purple-500/20 px-3 py-1 rounded-full">
+                <Sparkles className="w-4 h-4 text-purple-400" />
+                Application ID: {appId}
+              </p>
+
+              <p className="text-xs sm:text-sm text-zinc-400 leading-relaxed mb-6 font-medium">
+                Thank you for applying for the **CodeMe Hub Scholarship 2026**! Your registration has been received successfully.
+              </p>
+
+              <div className="w-full bg-zinc-950/60 border border-zinc-900 rounded-2xl p-4 mb-6 text-left space-y-2 text-[11px] text-zinc-400 font-mono">
+                <span className="text-[10px] text-zinc-500 uppercase tracking-widest font-semibold block border-b border-zinc-900 pb-1 mb-1.5">
+                  Admissions Next Steps:
+                </span>
+                <div className="flex gap-2">
+                  <span className="text-purple-400 font-bold">1.</span>
+                  <span>Check your inbox (and spam) for a confirmation slip email.</span>
+                </div>
+                <div className="flex gap-2">
+                  <span className="text-purple-400 font-bold">2.</span>
+                  <span>An online reasoning test link will be sent in 48 hours.</span>
+                </div>
+                <div className="flex gap-2">
+                  <span className="text-purple-400 font-bold">3.</span>
+                  <span>Complete the assessment within your 3-day window.</span>
+                </div>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => setSubmitSuccess(false)}
+                className="w-full py-3 rounded-xl font-bold text-white bg-gradient-to-r from-accent-blue to-accent-purple shadow-md cursor-pointer hover:opacity-95 transition-all text-xs"
+              >
+                Close & Done
+              </button>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
 
       {/* POPUP MODAL FOR ELIGIBILITY STATUS */}
       <AnimatePresence>
@@ -855,11 +866,10 @@ export default function ApplicationForm() {
                       onClick={() => {
                         setValue("passoutYear", "2026");
                         setShowEligibilityModal(false);
-                        simulateCapture(); // Auto scan with 2026
                       }}
                       className="flex-1 py-3 rounded-xl font-bold text-white bg-zinc-900 border border-zinc-800 hover:bg-zinc-800 text-xs cursor-pointer"
                     >
-                      Set to 2026 & Rescan
+                      Set to 2026
                     </button>
                     <button
                       type="button"
