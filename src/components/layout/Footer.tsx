@@ -110,7 +110,15 @@ export default function Footer() {
               ))}
             </ul>
           </div>
-
+{/* Contact Page Link */}
+<div>
+  <a
+    href="/contact"
+    className="text-sm font-semibold text-white tracking-wider uppercase mb-5 hover:text-purple-400 transition-colors duration-200"
+  >
+    Contact
+  </a>
+</div>
           {/* Training Programs */}
           <div>
             <h3 className="text-sm font-semibold text-white tracking-wider uppercase mb-5">
