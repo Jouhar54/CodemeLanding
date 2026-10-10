@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "next/link";
 import { Mail, Phone, MapPin, Award } from "lucide-react";
 
 const LinkedinIcon = (props: React.SVGProps<SVGSVGElement>) => (
@@ -39,11 +40,11 @@ export default function Footer() {
   ];
 
   const quickLinks = [
-    { name: "Benefits", href: "#benefits" },
-    { name: "Eligibility", href: "#eligibility" },
-    { name: "About Us", href: "#about" },
-    { name: "Why Apply", href: "#why-apply" },
-    { name: "FAQ", href: "#faq" },
+    { name: "Benefits", href: "/benefits" },
+    { name: "Eligibility", href: "/#eligibility" },
+    { name: "About Us", href: "/#about" },
+    { name: "Why Apply", href: "/#why-apply" },
+    { name: "FAQ", href: "/#faq" },
   ];
 
   const courses = [
@@ -100,12 +101,12 @@ export default function Footer() {
             <ul className="space-y-3">
               {quickLinks.map((link) => (
                 <li key={link.name}>
-                  <a
+                  <Link
                     href={link.href}
                     className="text-sm text-zinc-400 hover:text-white transition-colors duration-200"
                   >
                     {link.name}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
