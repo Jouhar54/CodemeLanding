@@ -1,12 +1,15 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import { usePathname, useRouter } from "next/navigation";
 import { Menu, X, Award, CheckCircle } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const pathname = usePathname();
+  const router = useRouter();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -21,18 +24,19 @@ export default function Navbar() {
   }, []);
 
   const navLinks = [
-    { name: "Benefits", href: "#benefits" },
-    { name: "Eligibility", href: "#eligibility" },
-    { name: "About", href: "#about" },
-    { name: "Why Apply", href: "#why-apply" },
-    { name: "FAQ", href: "#faq" },
+    { name: "Benefits", href: "/benefits" },
+    { name: "Eligibility", href: "/#eligibility" },
+    { name: "About", href: "/#about" },
+    { name: "Why Apply", href: "/#why-apply" },
+    { name: "FAQ", href: "/#faq" },
   ];
 
   const handleLinkClick = (href: string) => {
     setIsOpen(false);
-    const element = document.querySelector(href);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
+    if (href.startsWith("/#") && pathname === "/") {
+      document.querySelector(href.slice(1))?.scrollIntoView({ behavior: "smooth" });
+    } else {
+      router.push(href);
     }
   };
 
@@ -70,7 +74,7 @@ export default function Navbar() {
           {/* CTA Button */}
           <div className="hidden md:block">
             <button
-              onClick={() => handleLinkClick("#apply-form")}
+              onClick={() => handleLinkClick("/#apply-form")}
               className="relative group overflow-hidden px-6 py-2.5 rounded-xl text-sm font-semibold text-white bg-gradient-to-r from-accent-blue to-accent-purple hover:opacity-95 transition-all shadow-md shadow-purple-500/10 cursor-pointer"
             >
               <span className="relative z-10">Apply Now</span>
@@ -111,7 +115,7 @@ export default function Navbar() {
               </button>
             ))}
             <button
-              onClick={() => handleLinkClick("#apply-form")}
+              onClick={() => handleLinkClick("/#apply-form")}
               className="mt-2 w-full text-center py-3 rounded-xl text-sm font-semibold text-white bg-gradient-to-r from-accent-blue to-accent-purple"
             >
               Apply Now
