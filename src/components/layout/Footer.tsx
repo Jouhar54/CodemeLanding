@@ -43,7 +43,7 @@ export default function Footer() {
     { name: "Benefits", href: "/benefits" },
     { name: "Eligibility", href: "/#eligibility" },
     { name: "About Us", href: "/#about" },
-    { name: "Why Apply", href: "/#why-apply" },
+    { name: "Why Choose Us", href: "/why-choose-me" },
     { name: "FAQ", href: "/#faq" },
   ];
 

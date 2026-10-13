@@ -27,7 +27,7 @@ export default function Navbar() {
     { name: "Benefits", href: "/benefits" },
     { name: "Eligibility", href: "/#eligibility" },
     { name: "About", href: "/#about" },
-    { name: "Why Apply", href: "/#why-apply" },
+    { name: "Why Choose Us", href: "/why-choose-me" },
     { name: "FAQ", href: "/#faq" },
   ];
 
@@ -37,6 +37,21 @@ export default function Navbar() {
       document.querySelector(href.slice(1))?.scrollIntoView({ behavior: "smooth" });
     } else {
       router.push(href);
+    }
+  };
+
+  const isLinkActive = (href: string) => {
+    if (href === "/why-choose-me") {
+      return pathname === "/why-choose-me" || pathname === "/why-choose-us" || pathname === "/why-apply";
+    }
+    return pathname === href;
+  };
+
+  const handleLogoClick = () => {
+    if (pathname === "/") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    } else {
+      router.push("/");
     }
   };
 
@@ -51,7 +66,7 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <div className="flex items-center gap-3 cursor-pointer" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>
+          <div className="flex items-center gap-3 cursor-pointer" onClick={handleLogoClick}>
             <img src="/logo/codemeLogo.png" alt="CodeMe Hub Logo" className="w-10 h-10 object-cover rounded-full border border-zinc-800/80 shadow-md shadow-purple-500/10 shrink-0" />
             <span className="text-xl font-bold bg-gradient-to-r from-white via-zinc-200 to-zinc-400 bg-clip-text text-transparent">
               CodeMe<span className="text-purple-400"> Hub</span>
@@ -60,15 +75,20 @@ export default function Navbar() {
 
           {/* Desktop Nav Links */}
           <div className="hidden md:flex items-center gap-8">
-            {navLinks.map((link) => (
-              <button
-                key={link.name}
-                onClick={() => handleLinkClick(link.href)}
-                className="text-sm font-medium text-zinc-400 hover:text-white transition-colors duration-200 cursor-pointer"
-              >
-                {link.name}
-              </button>
-            ))}
+            {navLinks.map((link) => {
+              const active = isLinkActive(link.href);
+              return (
+                <button
+                  key={link.name}
+                  onClick={() => handleLinkClick(link.href)}
+                  className={`text-sm font-medium transition-colors duration-200 cursor-pointer ${
+                    active ? "text-purple-400 font-semibold" : "text-zinc-400 hover:text-white"
+                  }`}
+                >
+                  {link.name}
+                </button>
+              );
+            })}
           </div>
 
           {/* CTA Button */}
@@ -105,15 +125,22 @@ export default function Navbar() {
             transition={{ duration: 0.2 }}
             className="md:hidden absolute top-full left-0 right-0 glass-panel border-x-0 border-b border-zinc-800 bg-zinc-950/95 py-6 px-4 flex flex-col gap-4 shadow-xl"
           >
-            {navLinks.map((link) => (
-              <button
-                key={link.name}
-                onClick={() => handleLinkClick(link.href)}
-                className="text-left py-2 px-3 rounded-lg text-zinc-300 hover:text-white hover:bg-zinc-900 transition-colors"
-              >
-                {link.name}
-              </button>
-            ))}
+            {navLinks.map((link) => {
+              const active = isLinkActive(link.href);
+              return (
+                <button
+                  key={link.name}
+                  onClick={() => handleLinkClick(link.href)}
+                  className={`text-left py-2 px-3 rounded-lg transition-colors ${
+                    active
+                      ? "text-purple-400 bg-zinc-900 font-semibold"
+                      : "text-zinc-300 hover:text-white hover:bg-zinc-900"
+                  }`}
+                >
+                  {link.name}
+                </button>
+              );
+            })}
             <button
               onClick={() => handleLinkClick("/#apply-form")}
               className="mt-2 w-full text-center py-3 rounded-xl text-sm font-semibold text-white bg-gradient-to-r from-accent-blue to-accent-purple"

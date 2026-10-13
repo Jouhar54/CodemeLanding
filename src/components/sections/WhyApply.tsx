@@ -1,7 +1,8 @@
 "use client";
 
 import React from "react";
-import { TrendingUp, Compass, Network, Globe, Briefcase, UserCheck } from "lucide-react";
+import Link from "next/link";
+import { TrendingUp, Compass, Network, Globe, Briefcase, UserCheck, ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
 
 export default function WhyApply() {
@@ -120,6 +121,17 @@ export default function WhyApply() {
             );
           })}
         </motion.div>
+
+        {/* Link to Full Dedicated Page */}
+        <div className="mt-12 text-center">
+          <Link
+            href="/why-choose-me"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-semibold text-purple-300 bg-purple-500/10 hover:bg-purple-500/20 border border-purple-500/20 hover:border-purple-500/40 transition-all group"
+          >
+            <span>Explore Complete Overview & Why Choose CodeMe Hub</span>
+            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+          </Link>
+        </div>
 
       </div>
     </section>
